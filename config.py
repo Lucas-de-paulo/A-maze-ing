@@ -1,0 +1,110 @@
+class Config:
+    def __init__(
+        self,
+        width: int,
+        height: int,
+        entry: tuple[int, int],
+        exit: tuple[int, int],
+        output_file: str,
+        perfect: bool,
+        seed: int | None = None,
+    ) -> None:
+        self.width = width
+        self.height = height
+        self.entry = entry
+        self.exit = exit
+        self.output_file = output_file
+        self.perfect = perfect
+        self.seed = seed
+
+ALLOWED_KEYS = {
+    "WIDTH",
+    "HEIGHT",
+    "ENTRY",
+    "EXIT",
+    "OUTPUT_FILE",
+    "PERFECT",
+}
+
+def parse_coordinates(value: str) -> tuple[int, int]:
+    parts = value.split(",")
+
+    if len(parts) != 2:
+        raise ValueError(
+            f"Invalid coordinates: {value}"
+        )
+
+    return int(parts[0].strip()), int(parts[1].strip())
+
+
+def parse_bool(value: str) -> bool:
+    if value == "True":
+        return True
+
+    if value == "False":
+        return False
+
+    raise ValueError(f"Invalid boolean: {value}")
+
+
+def load_config(path: str) -> Config:
+    values: dict[str, str] = {}
+
+    try:
+        with open(path, "r") as file:
+            for line_number, line in enumerate(file, 1):
+                line = line.strip()
+
+                if not line or line.startswith("#"):
+                    continue
+
+                if "=" not in line:
+                    raise ValueError(f"Line {line_number}: expected KEY=VALUE")
+
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip()
+
+                if key not in ALLOWED_KEYS:
+                    raise ValueError(
+                        f"Line {line_number}: unknown key '{key}'"
+                    )
+
+                values[key] = value
+    except OSError as error:
+        raise ValueError(
+            f"Cannot read config file: {error}"
+        )
+
+    try:
+        config = Config(
+            width=int(values["WIDTH"]),
+            height=int(values["HEIGHT"]),
+            entry=parse_coordinates(values["ENTRY"]),
+            exit=parse_coordinates(values["EXIT"]),
+            output_file=values["OUTPUT_FILE"],
+            perfect=parse_bool(values["PERFECT"]),
+            seed=(
+                int(values["SEED"])
+                if "SEED" in values
+                else None
+            ),
+        )
+    except ValueError as error:
+        raise ValueError(
+            f"Invalid configuration value: {error}"
+        )
+
+    return config
+
+
+if __name__ == '__main__':
+    config = load_config("config.txt")
+
+    print(config.width)
+    print(config.height)
+    print(config.entry)
+    print(config.exit)
+    print(config.output_file)
+    print(config.perfect)
+    print(config.seed)
