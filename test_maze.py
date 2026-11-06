@@ -1,11 +1,14 @@
 from maze_generator import MazeGenerator
 
-maze = MazeGenerator(3,4)
+maze = MazeGenerator(20,15,(0,0),(19,14),True,42)
 
 print(f"Visited = {maze.visited}\n\nLabirinto criado {maze.maze}")
 print(f"Visited = {maze.visited}")
 
 maze.generate()
+
+path = maze.find_shortest_path()
+print("Menor caminho:", path)
 
 print("\n=== Visited após generate(): ===")
 print(maze.visited)
@@ -13,15 +16,11 @@ print(maze.visited)
 print("\n=== Labirinto após generate(): ===")
 print(maze.maze)
 
-display = maze.display()
-print(f"Retorno de display = {display}")
-encode_maze = maze.encode_maze()
-print(f"Retorno de encode_maze = {encode_maze}")
-generate = maze.generate()
-print(f"Retorno de generate = {generate}")
-get_neighbors = maze.get_neighbors
-get_unvisited_neighbors = maze.get_unvisited_neighbors(0,0)
-print(f"Retorno de get_neighbors = {get_unvisited_neighbors}")
+print("Entrada:", maze.entry)
+print("Célula inicial visitada:", maze.visited[1][1])
+print("Todas as células visitadas:", all(
+    all(row) for row in maze.visited
+))
 
-
-
+maze.display()
+maze.display(path)
