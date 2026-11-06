@@ -1,6 +1,14 @@
 import random
 from collections import deque
 
+VERMELHO = "\033[31m"
+VERDE = "\033[32m"
+AZUL = "\033[34m"
+AMARELO = "\033[33m"
+RESET = "\033[0m"
+
+WALL_COLOR = VERDE
+PATH_COLOR = VERMELHO
 
 class MazeGenerator:
     NORTH = 0
@@ -140,7 +148,7 @@ class MazeGenerator:
                     if self.maze[row][col][self.SOUTH]:
                         if random.choice([True, False]):
                             self.maze[row][col][self.SOUTH] = False
-                            self.maze[row + 1][col][self.NORTH] = False    
+                            self.maze[row + 1][col][self.NORTH] = False
 
     def find_shortest_path(self) -> list[tuple[int, int]]:
         queue = deque([self.entry])
@@ -208,38 +216,38 @@ class MazeGenerator:
 
             for col in range(self.width):
                 if self.maze[row][col][self.NORTH]:
-                    top += "*---"
+                    top += WALL_COLOR + "*---" + RESET
                 else:
-                    top += "*   "
+                    top += WALL_COLOR + "*   " + RESET
 
-            top += "*"
+            top += WALL_COLOR + "*" + RESET
             print(top)
 
             middle = ""
             for col in range(self.width):
                 if self.maze[row][col][self.WEST]:
-                    middle += "|"
+                    middle += WALL_COLOR + "|" + RESET
                 else:
-                    middle += " "
+                    middle += WALL_COLOR + " " + RESET
 
                 if (row, col) == self.entry:
                     middle += " S "
                 elif (row, col) == self.exit:
                     middle += " E "
                 elif path and (row, col) in path:
-                    middle += " . "
+                    middle += PATH_COLOR + " ⬤ " + RESET
                 else:
                     middle += "   "
 
-            middle += "|"
+            middle += WALL_COLOR + "|" + RESET
             print(middle)
 
         bottom = ""
         for col in range(self.width):
             if self.maze[self.height - 1][col][self.SOUTH]:
-                bottom += "*---"
+                bottom += WALL_COLOR + "*---" + RESET
             else:
-                bottom += "*   "
+                bottom += WALL_COLOR + "*   " + RESET
 
-        bottom += "*"
+        bottom += WALL_COLOR + "*" + RESET
         print(bottom)
