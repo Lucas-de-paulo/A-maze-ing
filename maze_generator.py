@@ -1,14 +1,6 @@
 import random
 from collections import deque
-
-VERMELHO = "\033[31m"
-VERDE = "\033[32m"
-AZUL = "\033[34m"
-AMARELO = "\033[33m"
-RESET = "\033[0m"
-
-WALL_COLOR = VERDE
-PATH_COLOR = VERMELHO
+from maze_display import MazeDisplay
 
 class MazeGenerator:
     NORTH = 0
@@ -95,6 +87,16 @@ class MazeGenerator:
         return neighbors
 
     def generate(self) -> None:
+        self.maze = [
+            [[True, True, True, True] for _ in range(self.width)]
+            for _ in range(self.height)
+        ]
+
+        self.visited = [
+            [False for _ in range(self.width)]
+            for _ in range(self.height)
+        ]
+
         stack = []
         row, col = self.entry
         if self.seed:
@@ -144,16 +146,18 @@ class MazeGenerator:
         for row in range(self.height):
             for col in range(self.width):
                 if col < self.width - 1:
-                    if self.maze[row][col][self.EAST]:
-                        if random.choice([True, False]):
-                            self.maze[row][col][self.EAST] = False
-                            self.maze[row][col + 1][self.WEST] = False
+                    if (row, col) not in self.blocked and (row, col + 1) not in self.blocked:
+                       if self.maze[row][col][self.EAST]:
+                            if random.choice([True, False]):
+                                self.maze[row][col][self.EAST] = False
+                                self.maze[row][col + 1][self.WEST] = False
 
                 if row < self.height - 1:
-                    if self.maze[row][col][self.SOUTH]:
-                        if random.choice([True, False]):
-                            self.maze[row][col][self.SOUTH] = False
-                            self.maze[row + 1][col][self.NORTH] = False
+                    if (row, col) not in self.blocked and (row + 1, col) not in self.blocked:                    
+                        if self.maze[row][col][self.SOUTH]:
+                            if random.choice([True, False]):
+                                self.maze[row][col][self.SOUTH] = False
+                                self.maze[row + 1][col][self.NORTH] = False
 
     def find_shortest_path(self) -> list[tuple[int, int]]:
         queue = deque([self.entry])
@@ -241,49 +245,3 @@ class MazeGenerator:
         self.blocked.add((y_place + 2, x_place + 3))
 
         print(f"Blocked: {self.blocked}")
-
-    def display(
-            self, path: list[tuple[int, int]] | None = None
-            ) -> None:
-        for row in range(self.height):
-            top = ""
-
-            for col in range(self.width):
-                if self.maze[row][col][self.NORTH]:
-                    top += WALL_COLOR + "*---" + RESET
-                else:
-                    top += WALL_COLOR + "*   " + RESET
-
-            top += WALL_COLOR + "*" + RESET
-            print(top)
-
-            middle = ""
-            for col in range(self.width):
-                if self.maze[row][col][self.WEST]:
-                    middle += WALL_COLOR + "|" + RESET
-                else:
-                    middle += WALL_COLOR + " " + RESET
-
-                if (row, col) == self.entry:
-                    middle += " S "
-                elif (row, col) == self.exit:
-                    middle += " E "
-                elif (row, col) in self.blocked:
-                    middle += " ■ "
-                elif path and (row, col) in path:
-                    middle += PATH_COLOR + " ⬤ " + RESET
-                else:
-                    middle += "   "
-
-            middle += WALL_COLOR + "|" + RESET
-            print(middle)
-
-        bottom = ""
-        for col in range(self.width):
-            if self.maze[self.height - 1][col][self.SOUTH]:
-                bottom += WALL_COLOR + "*---" + RESET
-            else:
-                bottom += WALL_COLOR + "*   " + RESET
-
-        bottom += WALL_COLOR + "*" + RESET
-        print(bottom)

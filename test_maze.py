@@ -1,26 +1,28 @@
+from parser import load_config
 from maze_generator import MazeGenerator
+from maze_display import MazeDisplay
 
-maze = MazeGenerator(20,15,(0,0),(19,14),True,42)
 
-print(f"Visited = {maze.visited}\n\nLabirinto criado {maze.maze}")
-print(f"Visited = {maze.visited}")
+def main() -> None:
+    config = load_config("config.txt")
 
-maze.generate()
+    generator = MazeGenerator(
+        width=config.width,
+        height=config.height,
+        entry=config.entry,
+        exit=config.exit,
+        perfect=config.perfect,
+        seed=config.seed
+    )
 
-path = maze.find_shortest_path()
-print("Menor caminho:", path)
+    generator.generate()
 
-print("\n=== Visited após generate(): ===")
-print(maze.visited)
+    display = MazeDisplay(generator)
 
-print("\n=== Labirinto após generate(): ===")
-print(maze.maze)
+    path = generator.find_shortest_path()
 
-print("Entrada:", maze.entry)
-print("Célula inicial visitada:", maze.visited[1][1])
-print("Todas as células visitadas:", all(
-    all(row) for row in maze.visited
-))
+    display.display(path)
 
-maze.display()
-maze.display(path)
+
+if __name__ == "__main__":
+    main()
