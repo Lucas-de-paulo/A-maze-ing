@@ -212,8 +212,8 @@ class MazeGenerator:
         return encoded_maze
 
     def place_42(self) -> None:
-        y_place = int(self.width / 2)
-        x_place = int(self.height / 2)
+        x_place = int(self.width / 2)
+        y_place = int(self.height / 2)
 
         self.blocked.add((y_place, x_place - 3))
         self.blocked.add((y_place, x_place - 2))
