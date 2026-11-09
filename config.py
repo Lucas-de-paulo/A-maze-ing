@@ -24,6 +24,7 @@ ALLOWED_KEYS = {
     "EXIT",
     "OUTPUT_FILE",
     "PERFECT",
+    "SEED"
 }
 
 def parse_coordinates(value: str) -> tuple[int, int]:
