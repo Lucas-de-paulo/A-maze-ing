@@ -97,6 +97,8 @@ class MazeGenerator:
     def generate(self) -> None:
         stack = []
         row, col = self.entry
+        if self.seed:
+            random.seed(self.seed)
 
         self.place_42()
 
