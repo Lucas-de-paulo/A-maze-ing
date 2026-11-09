@@ -34,6 +34,7 @@ class MazeGenerator:
 
         self.maze = []
         self.visited = []
+        self.blocked: set[tuple[int, int]] = set()
 
         for row in range(height):
             maze_line = []
@@ -69,7 +70,7 @@ class MazeGenerator:
         for neighbor in self.get_neighbors(row, col):
             r, c = neighbor
 
-            if not self.visited[r][c]:
+            if not self.visited[r][c] and (r, c) not in self.blocked:
                 unvisited.append(neighbor)
 
         return unvisited
@@ -96,6 +97,8 @@ class MazeGenerator:
     def generate(self) -> None:
         stack = []
         row, col = self.entry
+
+        self.place_42()
 
         self.visited[row][col] = True
         stack.append((row, col))
@@ -208,6 +211,35 @@ class MazeGenerator:
 
         return encoded_maze
 
+    def place_42(self) -> None:
+        y_place = int(self.width / 2)
+        x_place = int(self.height / 2)
+
+        self.blocked.add((y_place, x_place - 3))
+        self.blocked.add((y_place, x_place - 2))
+        self.blocked.add((y_place, x_place - 1))
+        self.blocked.add((y_place, x_place + 3))
+        self.blocked.add((y_place, x_place + 2))
+        self.blocked.add((y_place, x_place + 1))
+
+        self.blocked.add((y_place - 1, x_place - 3))
+        self.blocked.add((y_place - 1, x_place + 3))
+
+        self.blocked.add((y_place - 2, x_place - 3))
+        self.blocked.add((y_place - 2, x_place + 1))
+        self.blocked.add((y_place - 2, x_place + 2))
+        self.blocked.add((y_place - 2, x_place + 3))
+
+        self.blocked.add((y_place + 1, x_place - 1))
+        self.blocked.add((y_place + 1, x_place + 1))
+
+        self.blocked.add((y_place + 2, x_place - 1))
+        self.blocked.add((y_place + 2, x_place + 1))
+        self.blocked.add((y_place + 2, x_place + 2))
+        self.blocked.add((y_place + 2, x_place + 3))
+
+        print(f"Blocked: {self.blocked}")
+
     def display(
             self, path: list[tuple[int, int]] | None = None
             ) -> None:
@@ -234,6 +266,8 @@ class MazeGenerator:
                     middle += " S "
                 elif (row, col) == self.exit:
                     middle += " E "
+                elif (row, col) in self.blocked:
+                    middle += " ■ "
                 elif path and (row, col) in path:
                     middle += PATH_COLOR + " ⬤ " + RESET
                 else:
