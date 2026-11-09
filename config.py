@@ -30,7 +30,7 @@ ALLOWED_KEYS = {
 def parse_coordinates(value: str) -> tuple[int, int]:
     parts = value.split(",")
 
-    if len(parts) != 2:
+    if len(parts) != 2 or any(part for part in parts if int(part) < 0):
         raise ValueError(
             f"Invalid coordinates: {value}"
         )
