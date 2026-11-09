@@ -19,6 +19,7 @@ def main() -> None:
     print("Entrada:", config.entry)
     print("Saída:", config.exit)
     print("Perfect:", config.perfect)
+    print("Seed:", config.seed
 
     maze.generate()
 
