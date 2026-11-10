@@ -21,7 +21,19 @@ class Config:
     def validate(self) -> None:
         for x, y in (self.entry, self.exit):
             if not (0 <= x < self.width and 0 <= y < self.height):
-                raise ValueError(f"Coordinates out of maze bounds {x, y}")
+                raise ValueError(
+                    f"Coordinates out of maze bounds {x, y}"
+                )
+
+        if self.entry == self.exit:
+            raise ValueError(
+                f"Coordinates entry and exit they are the same"
+            )
+
+        if self.width < 9 or self.height < 7:
+            raise ValueError(
+                f"The maze is small, the minimum is width: 9 and height: 7"
+            )
 
 ALLOWED_KEYS = {
     "WIDTH",
@@ -97,9 +109,13 @@ def load_config(path: str) -> Config:
                 else None
             ),
         )
-    except ValueError as error:
+    except ValueError as e:
         raise ValueError(
-            f"Invalid configuration value: {error}"
+            f"Invalid configuration value: {e}"
+        )
+    except KeyError as e:
+        raise ValueError(
+            f"Missing information '{e.args[0]}' in {path}"
         )
 
     return config

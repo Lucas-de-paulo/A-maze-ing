@@ -12,7 +12,7 @@ def main() -> None:
 
     try:
         config = load_config(sys.argv[1])
-    except ValueError as e:
+    except Exception as e:
         print(f"Error {e}")
         sys.exit(1)
 
