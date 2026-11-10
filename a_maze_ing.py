@@ -3,6 +3,7 @@ from parser import load_config
 from maze_generator import MazeGenerator
 from maze_display import MazeDisplay
 from maze_controller import MazeController
+from maze_writer import MazeWriter
 
 
 def main() -> None:
@@ -27,9 +28,12 @@ def main() -> None:
 
     maze.generate()
 
-    display = MazeDisplay(maze)
+    writer = MazeWriter(maze)
+    writer.write(config.output_file)
 
-    controller = MazeController(maze, display)
+    display = MazeDisplay(maze)
+    controller = MazeController(maze, display, writer, config.output_file)
+    controller.refresh_display()
     controller.run()
 
 

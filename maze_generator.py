@@ -1,6 +1,5 @@
 import random
 from collections import deque
-from maze_display import MazeDisplay
 
 class MazeGenerator:
     NORTH = 0

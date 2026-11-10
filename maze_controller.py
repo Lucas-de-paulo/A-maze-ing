@@ -1,11 +1,20 @@
 from maze_display import MazeDisplay
 from maze_generator import MazeGenerator
+from maze_writer import MazeWriter
 import os
 
 class MazeController:
-    def __init__(self, generator: MazeGenerator, display: MazeDisplay) -> None:
+    def __init__(
+            self, 
+            generator: MazeGenerator,
+            display: MazeDisplay,
+            writer: MazeWriter,
+            output_file: str,
+            ) -> None:
         self.generator = generator
         self.display = display
+        self.writer = writer
+        self.output_file = output_file
         self.shortest_path_visibility = True
 
     def refresh_display(self) -> None:
@@ -17,15 +26,15 @@ class MazeController:
             self.display.display()
 
     def show_menu(self) -> None:
-        print("\n=== MAZE CONTROLLER ===")
-        print("1. generate maze")
-        print("2. Set shortest path visibility")
-        print("3. Change wall color")
-        print("4. Exit")
+        print("=== A-Maze-ing ===")
+        print("1. Re-generate a new maze")
+        print("2. Show / Hide the shortest path")
+        print("3. Rotate the wall colours")
+        print("4. Quit")
 
     def regenerate_maze(self) -> None:
         self.generator.generate()
-
+        self.writer.write(self.output_file)
         self.refresh_display()
 
     def set_shortest_path_visibility(self) -> None:
@@ -59,7 +68,7 @@ class MazeController:
     def run(self) -> None:
         while True:
             self.show_menu()
-            option = input("Choose an option: ")
+            option = input("Choice? (1-4): ")
 
             if option == "1":
                 self.regenerate_maze()
@@ -71,4 +80,4 @@ class MazeController:
                 print("Exiting maze...")
                 break
             else:
-                print("Invalid option!")
+                print("\nInvalid option!\n")
