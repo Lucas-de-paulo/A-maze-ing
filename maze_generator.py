@@ -243,5 +243,3 @@ class MazeGenerator:
         self.blocked.add((y_place + 2, x_place + 1))
         self.blocked.add((y_place + 2, x_place + 2))
         self.blocked.add((y_place + 2, x_place + 3))
-
-        print(f"Blocked: {self.blocked}")

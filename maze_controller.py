@@ -12,7 +12,7 @@ class MazeController:
         os.system('cls' if os.name == 'nt' else 'clear')
         if self.shortest_path_visibility:
             shortest_path = self.generator.find_shortest_path()
-            self.display.display(shortest_path )
+            self.display.display(shortest_path)
         else:
             self.display.display()
 

@@ -16,6 +16,12 @@ class Config:
         self.output_file = output_file
         self.perfect = perfect
         self.seed = seed
+        self.validate()
+
+    def validate(self) -> None:
+        for x, y in (self.entry, self.exit):
+            if not (0 <= x < self.width and 0 <= y < self.height):
+                raise ValueError(f"Coordinates out of maze bounds {x, y}")
 
 ALLOWED_KEYS = {
     "WIDTH",
@@ -30,7 +36,7 @@ ALLOWED_KEYS = {
 def parse_coordinates(value: str) -> tuple[int, int]:
     parts = value.split(",")
 
-    if len(parts) != 2 or any(part for part in parts if int(part) < 0):
+    if len(parts) != 2:
         raise ValueError(
             f"Invalid coordinates: {value}"
         )

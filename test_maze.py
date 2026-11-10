@@ -4,7 +4,10 @@ from maze_display import MazeDisplay
 
 
 def main() -> None:
-    config = load_config("config.txt")
+    try:
+        config = load_config("config.txt")
+    except ValueError as e:
+        print(f"Error: {e}")
 
     generator = MazeGenerator(
         width=config.width,

@@ -10,7 +10,11 @@ def main() -> None:
         print("Usage: python3 a_maze_ing.py config.txt")
         return
 
-    config = load_config(sys.argv[1])
+    try:
+        config = load_config(sys.argv[1])
+    except ValueError as e:
+        print(f"Error {e}")
+        sys.exit(1)
 
     maze = MazeGenerator(
         width=config.width,
