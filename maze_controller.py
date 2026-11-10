@@ -1,5 +1,6 @@
 from maze_display import MazeDisplay
 from maze_generator import MazeGenerator
+import os
 
 class MazeController:
     def __init__(self, generator: MazeGenerator, display: MazeDisplay) -> None:
@@ -8,6 +9,7 @@ class MazeController:
         self.shortest_path_visibility = True
 
     def refresh_display(self) -> None:
+        os.system('cls' if os.name == 'nt' else 'clear')
         if self.shortest_path_visibility:
             shortest_path = self.generator.find_shortest_path()
             self.display.display(shortest_path )
