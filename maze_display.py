@@ -1,3 +1,4 @@
+import time
 class MazeDisplay:
 
     RED = "\033[31m"
@@ -17,6 +18,7 @@ class MazeDisplay:
             self, path: list[tuple[int, int]] | None = None
             ) -> None:
         for row in range(self.generator.height):
+            time.sleep(0.05)
             top = ""
 
             for col in range(self.generator.width):
