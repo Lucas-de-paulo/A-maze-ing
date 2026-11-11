@@ -253,3 +253,13 @@ class MazeGenerator:
         self.blocked.add((y_place + 2, x_place + 1))
         self.blocked.add((y_place + 2, x_place + 2))
         self.blocked.add((y_place + 2, x_place + 3))
+
+        if self.entry in self.blocked:
+            raise ValueError (
+                f"entry occupying space at place 42"
+            )
+
+        if self.exit in self.blocked:
+            raise ValueError (
+                f"exit occupying space at place 42"
+            )
