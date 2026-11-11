@@ -148,23 +148,19 @@ class MazeGenerator:
                     continue
 
                 if self.maze[row][col].count(True) == 3:
-                    if row > 0 and (row - 1, col) not in self.blocked:
-                        if self.maze[row][col][self.NORTH]:
-                            self.maze[row][col][self.NORTH] = False
-                            self.maze[row - 1][col][self.SOUTH] = False
+                    if row > 0 and (row - 1, col) not in self.blocked and self.maze[row][col][self.NORTH]:
+                        self.maze[row][col][self.NORTH] = False
+                        self.maze[row - 1][col][self.SOUTH] = False
 
-                    if row < self.height - 1 and (row + 1, col) not in self.blocked:
-                        if self.maze[row][col][self.SOUTH]:
+                    elif row < self.height - 1 and (row + 1, col) not in self.blocked and self.maze[row][col][self.SOUTH]:
                             self.maze[row][col][self.SOUTH] = False
                             self.maze[row + 1][col][self.NORTH] = False
 
-                    if col < self.width - 1 and (row, col + 1) not in self.blocked:
-                        if self.maze[row][col][self.EAST]:
+                    elif col < self.width - 1 and (row, col + 1) not in self.blocked and self.maze[row][col][self.EAST]:
                             self.maze[row][col][self.EAST] = False
                             self.maze[row][col + 1][self.WEST] = False
 
-                    if col > 0 and (row, col - 1) not in self.blocked:
-                        if self.maze[row][col][self.WEST]:
+                    elif col > 0 and (row, col - 1) not in self.blocked and self.maze[row][col][self.WEST]:
                             self.maze[row][col][self.WEST] = False
                             self.maze[row][col - 1][self.EAST] = False
 
