@@ -144,19 +144,30 @@ class MazeGenerator:
     def create_loops(self) -> None:
         for row in range(self.height):
             for col in range(self.width):
-                if col < self.width - 1:
-                    if (row, col) not in self.blocked and (row, col + 1) not in self.blocked:
-                       if self.maze[row][col][self.EAST]:
-                            if random.choice([True, False]):
-                                self.maze[row][col][self.EAST] = False
-                                self.maze[row][col + 1][self.WEST] = False
+                if (row, col) in self.blocked:
+                    continue
 
-                if row < self.height - 1:
-                    if (row, col) not in self.blocked and (row + 1, col) not in self.blocked:                    
+                if self.maze[row][col].count(True) == 3:
+                    if row > 0 and (row - 1, col) not in self.blocked:
+                        if self.maze[row][col][self.NORTH]:
+                            self.maze[row][col][self.NORTH] = False
+                            self.maze[row - 1][col][self.SOUTH] = False
+
+                    if row < self.height - 1 and (row + 1, col) not in self.blocked:
                         if self.maze[row][col][self.SOUTH]:
-                            if random.choice([True, False]):
-                                self.maze[row][col][self.SOUTH] = False
-                                self.maze[row + 1][col][self.NORTH] = False
+                            self.maze[row][col][self.SOUTH] = False
+                            self.maze[row + 1][col][self.NORTH] = False
+
+                    if col < self.width - 1 and (row, col + 1) not in self.blocked:
+                        if self.maze[row][col][self.EAST]:
+                            self.maze[row][col][self.EAST] = False
+                            self.maze[row][col + 1][self.WEST] = False
+
+                    if col > 0 and (row, col - 1) not in self.blocked:
+                        if self.maze[row][col][self.WEST]:
+                            self.maze[row][col][self.WEST] = False
+                            self.maze[row][col - 1][self.EAST] = False
+
 
     def find_shortest_path(self) -> list[tuple[int, int]]:
         queue = deque([self.entry])
