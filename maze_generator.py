@@ -27,6 +27,9 @@ class MazeGenerator:
         self.visited = []
         self.blocked: set[tuple[int, int]] = set()
 
+        if self.seed != None:
+            random.seed(self.seed)
+
         for row in range(height):
             maze_line = []
             visited_line = []
@@ -98,9 +101,6 @@ class MazeGenerator:
 
         stack = []
         row, col = self.entry
-        if self.seed:
-            random.seed(self.seed)
-
         self.place_42()
 
         self.visited[row][col] = True

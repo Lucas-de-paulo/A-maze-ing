@@ -35,11 +35,14 @@ class MazeWriter:
         exit_coord = self.generator.exit
         directions = self.path_to_directions()
 
-        with open(output_file, "w") as file:
-            for row in encoded_maze:
-                file.write(row + "\n")
+        try:
+            with open(output_file, "w") as file:
+                for row in encoded_maze:
+                    file.write(row + "\n")
 
-            file.write("\n")
-            file.write(f"{entry_coord[1]},{entry_coord[0]}\n")
-            file.write(f"{exit_coord[1]},{exit_coord[0]}\n")
-            file.write(directions + "\n")
+                file.write("\n")
+                file.write(f"{entry_coord[1]},{entry_coord[0]}\n")
+                file.write(f"{exit_coord[1]},{exit_coord[0]}\n")
+                file.write(directions + "\n")
+        except:
+            print(f"Error in write file {output_file}")

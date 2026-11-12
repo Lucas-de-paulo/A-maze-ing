@@ -68,7 +68,10 @@ class MazeController:
     def run(self) -> None:
         while True:
             self.show_menu()
-            option = input("Choice? (1-4): ")
+            try:
+                option = input("Choice? (1-4): ")
+            except EOFError as e:
+                print(f"Input error")
 
             if option == "1":
                 self.regenerate_maze()

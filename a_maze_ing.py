@@ -14,7 +14,7 @@ def main() -> None:
     try:
         config = load_config(sys.argv[1])
     except ValueError as e:
-        print(f"Error: {e}")
+        print(f"Error {e}")
         sys.exit(1)
     
     maze = MazeGenerator(
