@@ -2,11 +2,14 @@ from maze_generator import MazeGenerator
 
 
 class MazeWriter:
+    """Write the generated maze to an output file."""
     def __init__(self, generator: MazeGenerator) -> None:
+        """Initialize the writer with a maze generator."""
         self.generator = generator
 
 
     def path_to_directions(self) -> str:
+        """Convert the shortest path into directional instructions."""
         directions = ""
         path = self.generator.find_shortest_path()
         for n in range(len(path) - 1):
@@ -30,6 +33,7 @@ class MazeWriter:
         return directions
 
     def write(self, output_file: str) -> None:
+        """Write the maze, coordinates, and solution to a file."""
         encoded_maze = self.generator.encode_maze()
         entry_coord = self.generator.entry
         exit_coord = self.generator.exit
@@ -44,5 +48,5 @@ class MazeWriter:
                 file.write(f"{entry_coord[1]},{entry_coord[0]}\n")
                 file.write(f"{exit_coord[1]},{exit_coord[0]}\n")
                 file.write(directions + "\n")
-        except:
-            print(f"Error in write file {output_file}")
+        except OSError as error:
+            raise OSError(f"Error in write file {output_file}: {error}")

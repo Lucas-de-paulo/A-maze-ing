@@ -3,6 +3,7 @@ from collections import deque
 
 
 class MazeGenerator:
+    """Generate and manage mazes"""
     NORTH = 0
     EAST = 1
     SOUTH = 2
@@ -17,6 +18,7 @@ class MazeGenerator:
             perfect: bool,
             seed: int | None = None,
             ) -> None:
+        """Initialize the maze generator with the given parameters."""
         self.width = width
         self.height = height
         self.entry = (entry[1], entry[0])
@@ -24,8 +26,8 @@ class MazeGenerator:
         self.perfect = perfect
         self.seed = seed
 
-        self.maze = []
-        self.visited = []
+        self.maze: list[list[list[bool]]] = []
+        self.visited: list[list[bool]] = []
         self.blocked: set[tuple[int, int]] = set()
 
         if self.seed is not None:
@@ -43,6 +45,7 @@ class MazeGenerator:
             self.visited.append(visited_line)
 
     def get_neighbors(self, row: int, col: int) -> list[tuple[int, int]]:
+        """Return all valid neighboring cells."""
         neighbors = []
 
         if row - 1 >= 0:
@@ -60,6 +63,7 @@ class MazeGenerator:
         return neighbors
 
     def get_unvisited_neighbors(self, row: int, col: int) -> list[tuple[int, int]]:
+        """Return neighboring cells that have not been visited or blocked."""
         unvisited = []
 
         for neighbor in self.get_neighbors(row, col):
@@ -73,6 +77,7 @@ class MazeGenerator:
     def get_open_neighbors(
         self, row: int, col: int
     ) -> list[tuple[int, int]]:
+        """Return neighboring cells connected by open passages."""
         neighbors = []
 
         if row > 0 and not self.maze[row][col][self.NORTH]:
@@ -90,6 +95,7 @@ class MazeGenerator:
         return neighbors
 
     def generate(self) -> None:
+        """Generate the maze using the recursive backtracking algorithm."""
         self.maze = [
             [[True, True, True, True] for _ in range(self.width)]
             for _ in range(self.height)
@@ -143,6 +149,7 @@ class MazeGenerator:
             self.create_loops()
 
     def create_loops(self) -> None:
+        """Create additional passages to produce loops in the maze."""
         for row in range(self.height):
             for col in range(self.width):
                 if (row, col) in self.blocked:
@@ -166,6 +173,7 @@ class MazeGenerator:
                         self.maze[row][col - 1][self.EAST] = False
 
     def find_shortest_path(self) -> list[tuple[int, int]]:
+        """Find the shortest path between entry and exit using BFS."""
         queue = deque([self.entry])
         visited = {self.entry}
         came_from = {self.entry: None}
@@ -197,6 +205,7 @@ class MazeGenerator:
         return path[::-1]
 
     def encode_maze(self) -> list[str]:
+        """Encode the maze walls as hexadecimal values."""
         encoded_maze = []
 
         for row in self.maze:
@@ -224,6 +233,7 @@ class MazeGenerator:
         return encoded_maze
 
     def place_42(self) -> None:
+        """Place the 42 pattern and mark its cells as blocked."""
         x_place = int(self.width / 2)
         y_place = int(self.height / 2)
 
