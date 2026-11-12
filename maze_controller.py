@@ -3,9 +3,10 @@ from maze_generator import MazeGenerator
 from maze_writer import MazeWriter
 import os
 
+
 class MazeController:
     def __init__(
-            self, 
+            self,
             generator: MazeGenerator,
             display: MazeDisplay,
             writer: MazeWriter,

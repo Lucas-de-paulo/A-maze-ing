@@ -1,4 +1,6 @@
 import time
+
+
 class MazeDisplay:
 
     RED = "\033[31m"
@@ -12,7 +14,6 @@ class MazeDisplay:
 
     def __init__(self, maze_generator) -> None:
         self.generator = maze_generator
-
 
     def display(
             self, path: list[tuple[int, int]] | None = None

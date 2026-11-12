@@ -1,6 +1,7 @@
 import random
 from collections import deque
 
+
 class MazeGenerator:
     NORTH = 0
     EAST = 1
@@ -27,7 +28,7 @@ class MazeGenerator:
         self.visited = []
         self.blocked: set[tuple[int, int]] = set()
 
-        if self.seed != None:
+        if self.seed is not None:
             random.seed(self.seed)
 
         for row in range(height):
@@ -153,17 +154,16 @@ class MazeGenerator:
                         self.maze[row - 1][col][self.SOUTH] = False
 
                     elif row < self.height - 1 and (row + 1, col) not in self.blocked and self.maze[row][col][self.SOUTH]:
-                            self.maze[row][col][self.SOUTH] = False
-                            self.maze[row + 1][col][self.NORTH] = False
+                        self.maze[row][col][self.SOUTH] = False
+                        self.maze[row + 1][col][self.NORTH] = False
 
                     elif col < self.width - 1 and (row, col + 1) not in self.blocked and self.maze[row][col][self.EAST]:
-                            self.maze[row][col][self.EAST] = False
-                            self.maze[row][col + 1][self.WEST] = False
+                        self.maze[row][col][self.EAST] = False
+                        self.maze[row][col + 1][self.WEST] = False
 
                     elif col > 0 and (row, col - 1) not in self.blocked and self.maze[row][col][self.WEST]:
-                            self.maze[row][col][self.WEST] = False
-                            self.maze[row][col - 1][self.EAST] = False
-
+                        self.maze[row][col][self.WEST] = False
+                        self.maze[row][col - 1][self.EAST] = False
 
     def find_shortest_path(self) -> list[tuple[int, int]]:
         queue = deque([self.entry])
@@ -251,11 +251,11 @@ class MazeGenerator:
         self.blocked.add((y_place + 2, x_place + 3))
 
         if self.entry in self.blocked:
-            raise ValueError (
-                f"entry occupying space at place 42"
+            raise ValueError(
+                "entry occupying space at place 42"
             )
 
         if self.exit in self.blocked:
-            raise ValueError (
-                f"exit occupying space at place 42"
+            raise ValueError(
+                "exit occupying space at place 42"
             )

@@ -16,7 +16,7 @@ def main() -> None:
     except ValueError as e:
         print(f"Error {e}")
         sys.exit(1)
-    
+
     maze = MazeGenerator(
         width=config.width,
         height=config.height,
@@ -25,13 +25,12 @@ def main() -> None:
         perfect=config.perfect,
         seed=config.seed
     )
-    
+
     try:
         maze.generate()
     except ValueError as e:
         print(f"Error: {e}")
         sys.exit(1)
-
 
     writer = MazeWriter(maze)
     writer.write(config.output_file)

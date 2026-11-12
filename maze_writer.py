@@ -14,7 +14,7 @@ class MazeWriter:
             current_row = current_tuple[0]
             current_col = current_tuple[1]
 
-            next_position  = path[n + 1]
+            next_position = path[n + 1]
             next_position_row = next_position[0]
             next_position_col = next_position[1]
 

@@ -35,6 +35,7 @@ class Config:
                 f"The maze is small, the minimum is width: 9 and height: 7"
             )
 
+
 ALLOWED_KEYS = {
     "WIDTH",
     "HEIGHT",
@@ -44,6 +45,7 @@ ALLOWED_KEYS = {
     "PERFECT",
     "SEED"
 }
+
 
 def parse_coordinates(value: str) -> tuple[int, int]:
     parts = value.split(",")
