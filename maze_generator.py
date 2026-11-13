@@ -234,31 +234,31 @@ class MazeGenerator:
 
     def place_42(self) -> None:
         """Place the 42 pattern and mark its cells as blocked."""
-        x_place = int(self.width / 2)
-        y_place = int(self.height / 2)
+        col_place = int(self.width / 2)
+        row_place = int(self.height / 2)
 
-        self.blocked.add((y_place, x_place - 3))
-        self.blocked.add((y_place, x_place - 2))
-        self.blocked.add((y_place, x_place - 1))
-        self.blocked.add((y_place, x_place + 3))
-        self.blocked.add((y_place, x_place + 2))
-        self.blocked.add((y_place, x_place + 1))
+        self.blocked.add((row_place, col_place - 3))
+        self.blocked.add((row_place, col_place - 2))
+        self.blocked.add((row_place, col_place - 1))
+        self.blocked.add((row_place, col_place + 3))
+        self.blocked.add((row_place, col_place + 2))
+        self.blocked.add((row_place, col_place + 1))
 
-        self.blocked.add((y_place - 1, x_place - 3))
-        self.blocked.add((y_place - 1, x_place + 3))
+        self.blocked.add((row_place - 1, col_place - 3))
+        self.blocked.add((row_place - 1, col_place + 3))
 
-        self.blocked.add((y_place - 2, x_place - 3))
-        self.blocked.add((y_place - 2, x_place + 1))
-        self.blocked.add((y_place - 2, x_place + 2))
-        self.blocked.add((y_place - 2, x_place + 3))
+        self.blocked.add((row_place - 2, col_place - 3))
+        self.blocked.add((row_place - 2, col_place + 1))
+        self.blocked.add((row_place - 2, col_place + 2))
+        self.blocked.add((row_place - 2, col_place + 3))
 
-        self.blocked.add((y_place + 1, x_place - 1))
-        self.blocked.add((y_place + 1, x_place + 1))
+        self.blocked.add((row_place + 1, col_place - 1))
+        self.blocked.add((row_place + 1, col_place + 1))
 
-        self.blocked.add((y_place + 2, x_place - 1))
-        self.blocked.add((y_place + 2, x_place + 1))
-        self.blocked.add((y_place + 2, x_place + 2))
-        self.blocked.add((y_place + 2, x_place + 3))
+        self.blocked.add((row_place + 2, col_place - 1))
+        self.blocked.add((row_place + 2, col_place + 1))
+        self.blocked.add((row_place + 2, col_place + 2))
+        self.blocked.add((row_place + 2, col_place + 3))
 
         if self.entry in self.blocked:
             raise ValueError(

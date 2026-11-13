@@ -50,7 +50,10 @@ class MazeController:
         print("3. Blue")
         print("4. Yellow")
 
-        option = input("Choose a color: ")
+        try:
+            option = input("Choose a color: ")
+        except (EOFError, KeyboardInterrupt):
+            return
 
         if option == "1":
             self.display.WALL_COLOR = self.display.RED
@@ -71,11 +74,15 @@ class MazeController:
             self.show_menu()
             try:
                 option = input("Choice? (1-4): ")
-            except EOFError as e:
-                print(f"Input error")
+            except (EOFError, KeyboardInterrupt):
+                print("Closed")
+                return
 
             if option == "1":
-                self.regenerate_maze()
+                try:
+                    self.regenerate_maze()
+                except (ValueError, EOFError) as e:
+                    print(f"It was not possible to regenerate: {e}")
             elif option == "2":
                 self.set_shortest_path_visibility()
             elif option == "3":

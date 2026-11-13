@@ -19,10 +19,11 @@ class Config:
         self.validate()
 
     def validate(self) -> None:
-        for x, y in (self.entry, self.exit):
-            if not (0 <= x < self.width and 0 <= y < self.height):
+        """Initial validation of configuration coordinates and sizes"""
+        for row, col in (self.entry, self.exit):
+            if not (0 <= row < self.width and 0 <= col < self.height):
                 raise ValueError(
-                    f"Coordinates out of maze bounds {x, y}"
+                    f"Coordinates out of maze bounds {row, col}"
                 )
 
         if self.entry == self.exit:
@@ -30,9 +31,9 @@ class Config:
                 f"Coordinates entry and exit they are the same"
             )
 
-        if self.width < 9 or self.height < 7:
+        if self.width < 3 or self.height < 3:
             raise ValueError(
-                f"The maze is small, the minimum is width: 9 and height: 7"
+                f"The maze is small, the minimum is width: 3 and height: 3"
             )
 
 
@@ -48,6 +49,7 @@ ALLOWED_KEYS = {
 
 
 def parse_coordinates(value: str) -> tuple[int, int]:
+    """Transforms the text into a list of x, y coordinates"""
     parts = value.split(",")
 
     if len(parts) != 2:
@@ -59,6 +61,7 @@ def parse_coordinates(value: str) -> tuple[int, int]:
 
 
 def parse_bool(value: str) -> bool:
+    """Transforms the text into a boolean"""
     if value == "True":
         return True
 
@@ -69,6 +72,7 @@ def parse_bool(value: str) -> bool:
 
 
 def load_config(path: str) -> Config:
+    """Loads the configuration file and parses the information"""
     values: dict[str, str] = {}
 
     try:
