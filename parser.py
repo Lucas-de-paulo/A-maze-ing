@@ -1,4 +1,7 @@
+"""Parse and validate the A-Maze-ing configuration file."""
+
 class Config:
+    """Store and validate the maze configuration."""
     def __init__(
         self,
         width: int,
@@ -9,6 +12,7 @@ class Config:
         perfect: bool,
         seed: int | None = None,
     ) -> None:
+        """Initialize the configuration with the provided values."""
         self.width = width
         self.height = height
         self.entry = entry
@@ -19,6 +23,7 @@ class Config:
         self.validate()
 
     def validate(self) -> None:
+        """Validate maze dimensions and entry and exit coordinates."""
         for x, y in (self.entry, self.exit):
             if not (0 <= x < self.width and 0 <= y < self.height):
                 raise ValueError(
@@ -48,6 +53,7 @@ ALLOWED_KEYS = {
 
 
 def parse_coordinates(value: str) -> tuple[int, int]:
+    """Convert a coordinate string into an integer tuple."""
     parts = value.split(",")
 
     if len(parts) != 2:
@@ -59,6 +65,7 @@ def parse_coordinates(value: str) -> tuple[int, int]:
 
 
 def parse_bool(value: str) -> bool:
+    """Convert a string into a boolean value."""
     if value == "True":
         return True
 
@@ -69,6 +76,7 @@ def parse_bool(value: str) -> bool:
 
 
 def load_config(path: str) -> Config:
+    """Load and parse the maze configuration file."""
     values: dict[str, str] = {}
 
     try:

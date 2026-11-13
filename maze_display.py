@@ -1,7 +1,9 @@
 import time
+from maze_generator import MazeGenerator
 
 
 class MazeDisplay:
+    """Display the maze in the terminal using Characters."""
 
     RED = "\033[31m"
     GREEN = "\033[32m"
@@ -12,12 +14,14 @@ class MazeDisplay:
     WALL_COLOR = GREEN
     PATH_COLOR = RED
 
-    def __init__(self, maze_generator) -> None:
+    def __init__(self, maze_generator: MazeGenerator) -> None:
+        """Initialize the display with a maze generator."""
         self.generator = maze_generator
 
     def display(
             self, path: list[tuple[int, int]] | None = None
             ) -> None:
+        """Display the complete maze in the terminal, highlighting the entry, exit, and shortest path."""
         for row in range(self.generator.height):
             time.sleep(0.05)
             top = ""

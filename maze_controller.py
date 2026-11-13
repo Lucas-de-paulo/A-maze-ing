@@ -1,10 +1,12 @@
+import os
+
 from maze_display import MazeDisplay
 from maze_generator import MazeGenerator
 from maze_writer import MazeWriter
-import os
 
 
 class MazeController:
+    """Manage maze generation, display, and user interactions."""
     def __init__(
             self,
             generator: MazeGenerator,
@@ -12,6 +14,7 @@ class MazeController:
             writer: MazeWriter,
             output_file: str,
             ) -> None:
+        """Initialize the controller with the maze components."""
         self.generator = generator
         self.display = display
         self.writer = writer
@@ -19,6 +22,7 @@ class MazeController:
         self.shortest_path_visibility = True
 
     def refresh_display(self) -> None:
+        """Refresh the terminal and display the current maze."""
         os.system('cls' if os.name == 'nt' else 'clear')
         if self.shortest_path_visibility:
             shortest_path = self.generator.find_shortest_path()
@@ -27,6 +31,7 @@ class MazeController:
             self.display.display()
 
     def show_menu(self) -> None:
+        """Display the available interaction options."""
         print("=== A-Maze-ing ===")
         print("1. Re-generate a new maze")
         print("2. Show / Hide the shortest path")
@@ -34,16 +39,19 @@ class MazeController:
         print("4. Quit")
 
     def regenerate_maze(self) -> None:
+        """Generate a new maze and update the output file."""
         self.generator.generate()
         self.writer.write(self.output_file)
         self.refresh_display()
 
     def set_shortest_path_visibility(self) -> None:
+        """Toggle the visibility of the shortest path."""
         self.shortest_path_visibility = not self.shortest_path_visibility
 
         self.refresh_display()
 
     def change_wall_color(self) -> None:
+        """Allow the user to change the maze wall color."""
         print("\n=== Wall color ===")
         print("1. Red")
         print("2. Green")
@@ -67,12 +75,14 @@ class MazeController:
         self.refresh_display()
 
     def run(self) -> None:
+        """Run the interactive maze menu."""
         while True:
             self.show_menu()
             try:
                 option = input("Choice? (1-4): ")
             except EOFError as e:
-                print(f"Input error")
+                print(f"Input error. Exiting maze...")
+                break
 
             if option == "1":
                 self.regenerate_maze()
