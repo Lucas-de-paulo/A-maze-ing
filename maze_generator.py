@@ -62,7 +62,10 @@ class MazeGenerator:
 
         return neighbors
 
-    def get_unvisited_neighbors(self, row: int, col: int) -> list[tuple[int, int]]:
+    def get_unvisited_neighbors(
+            self,
+            row: int, col: int
+            ) -> list[tuple[int, int]]:
         """Return neighboring cells that have not been visited or blocked."""
         unvisited = []
 
@@ -108,7 +111,6 @@ class MazeGenerator:
 
         stack = []
         row, col = self.entry
-        self.place_42()
 
         self.visited[row][col] = True
         stack.append((row, col))
@@ -156,19 +158,35 @@ class MazeGenerator:
                     continue
 
                 if self.maze[row][col].count(True) == 3:
-                    if row > 0 and (row - 1, col) not in self.blocked and self.maze[row][col][self.NORTH]:
+                    if (
+                        row > 0
+                        and (row - 1, col) not in self.blocked
+                        and self.maze[row][col][self.NORTH]
+                    ):
                         self.maze[row][col][self.NORTH] = False
                         self.maze[row - 1][col][self.SOUTH] = False
 
-                    elif row < self.height - 1 and (row + 1, col) not in self.blocked and self.maze[row][col][self.SOUTH]:
+                    elif (
+                        row < self.height - 1
+                        and (row + 1, col) not in self.blocked
+                        and self.maze[row][col][self.SOUTH]
+                    ):
                         self.maze[row][col][self.SOUTH] = False
                         self.maze[row + 1][col][self.NORTH] = False
 
-                    elif col < self.width - 1 and (row, col + 1) not in self.blocked and self.maze[row][col][self.EAST]:
+                    elif (
+                        col < self.width - 1
+                        and (row, col + 1) not in self.blocked
+                        and self.maze[row][col][self.EAST]
+                    ):
                         self.maze[row][col][self.EAST] = False
                         self.maze[row][col + 1][self.WEST] = False
 
-                    elif col > 0 and (row, col - 1) not in self.blocked and self.maze[row][col][self.WEST]:
+                    elif (
+                        col > 0
+                        and (row, col - 1) not in self.blocked
+                        and self.maze[row][col][self.WEST]
+                    ):
                         self.maze[row][col][self.WEST] = False
                         self.maze[row][col - 1][self.EAST] = False
 
@@ -176,7 +194,10 @@ class MazeGenerator:
         """Find the shortest path between entry and exit using BFS."""
         queue = deque([self.entry])
         visited = {self.entry}
-        came_from = {self.entry: None}
+        came_from: dict[
+            tuple[int, int],
+            tuple[int, int] | None
+            ] = {self.entry: None}
 
         while queue:
             current = queue.popleft()
@@ -196,81 +217,10 @@ class MazeGenerator:
             return []
 
         path = []
-        current = self.exit
+        path_current: tuple[int, int] | None = self.exit
 
-        while current is not None:
-            path.append(current)
-            current = came_from[current]
+        while path_current is not None:
+            path.append(path_current)
+            path_current = came_from[path_current]
 
         return path[::-1]
-
-    def encode_maze(self) -> list[str]:
-        """Encode the maze walls as hexadecimal values."""
-        encoded_maze = []
-
-        for row in self.maze:
-            encoded_row = ""
-
-            for cell in row:
-                value = 0
-
-                if cell[self.NORTH]:
-                    value += 1
-
-                if cell[self.EAST]:
-                    value += 2
-
-                if cell[self.SOUTH]:
-                    value += 4
-
-                if cell[self.WEST]:
-                    value += 8
-
-                encoded_row += format(value, "X")
-
-            encoded_maze.append(encoded_row)
-
-        return encoded_maze
-
-    def place_42(self) -> None:
-        """Place the 42 pattern and mark its cells as blocked."""
-        self.blocked.clear()
-
-        if self.width < 9 or self.height < 7:
-            return
-
-        col_place = int(self.width / 2)
-        row_place = int(self.height / 2)
-
-        self.blocked.add((row_place, col_place - 3))
-        self.blocked.add((row_place, col_place - 2))
-        self.blocked.add((row_place, col_place - 1))
-        self.blocked.add((row_place, col_place + 3))
-        self.blocked.add((row_place, col_place + 2))
-        self.blocked.add((row_place, col_place + 1))
-
-        self.blocked.add((row_place - 1, col_place - 3))
-        self.blocked.add((row_place - 1, col_place + 3))
-
-        self.blocked.add((row_place - 2, col_place - 3))
-        self.blocked.add((row_place - 2, col_place + 1))
-        self.blocked.add((row_place - 2, col_place + 2))
-        self.blocked.add((row_place - 2, col_place + 3))
-
-        self.blocked.add((row_place + 1, col_place - 1))
-        self.blocked.add((row_place + 1, col_place + 1))
-
-        self.blocked.add((row_place + 2, col_place - 1))
-        self.blocked.add((row_place + 2, col_place + 1))
-        self.blocked.add((row_place + 2, col_place + 2))
-        self.blocked.add((row_place + 2, col_place + 3))
-
-        if self.entry in self.blocked:
-            raise ValueError(
-                "entry occupying space at place 42"
-            )
-
-        if self.exit in self.blocked:
-            raise ValueError(
-                "exit occupying space at place 42"
-            )
