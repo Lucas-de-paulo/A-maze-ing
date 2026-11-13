@@ -70,6 +70,8 @@ class MazeController:
         self.refresh_display()
 
     def run(self) -> None:
+        if self.generator.width < 9 or self.generator.height < 7:
+            print("\nSize too small for place 42\n")
         while True:
             self.show_menu()
             try:

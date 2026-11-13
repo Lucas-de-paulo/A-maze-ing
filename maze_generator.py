@@ -234,6 +234,11 @@ class MazeGenerator:
 
     def place_42(self) -> None:
         """Place the 42 pattern and mark its cells as blocked."""
+        self.blocked.clear()
+
+        if self.width < 9 or self.height < 7:
+            return
+
         col_place = int(self.width / 2)
         row_place = int(self.height / 2)
 
