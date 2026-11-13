@@ -64,6 +64,8 @@ def main() -> None:
     try:
         place_42(maze)
         maze.generate()
+    except (ValueError) as e:
+        print(f"Error: {e}")
 
     writer = MazeWriter(maze)
 
@@ -73,6 +75,7 @@ def main() -> None:
         print(f"Error: {error}")
         sys.exit(1)
 
+    try:
         display = MazeDisplay(maze)
         controller = MazeController(maze, display, writer, config.output_file)
         controller.refresh_display()
