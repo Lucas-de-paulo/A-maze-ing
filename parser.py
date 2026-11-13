@@ -1,5 +1,6 @@
 """Parse and validate the A-Maze-ing configuration file."""
 
+
 class Config:
     """Store and validate the maze configuration."""
     def __init__(

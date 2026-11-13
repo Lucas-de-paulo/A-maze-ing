@@ -7,7 +7,6 @@ class MazeWriter:
         """Initialize the writer with a maze generator."""
         self.generator = generator
 
-
     def path_to_directions(self) -> str:
         """Convert the shortest path into directional instructions."""
         directions = ""
@@ -32,9 +31,37 @@ class MazeWriter:
 
         return directions
 
+    def encode_maze(self) -> list[str]:
+        """Encode the maze walls as hexadecimal values."""
+        encoded_maze = []
+
+        for row in self.generator.maze:
+            encoded_row = ""
+
+            for cell in row:
+                value = 0
+
+                if cell[0]:
+                    value += 1
+
+                if cell[1]:
+                    value += 2
+
+                if cell[2]:
+                    value += 4
+
+                if cell[3]:
+                    value += 8
+
+                encoded_row += format(value, "X")
+
+            encoded_maze.append(encoded_row)
+
+        return encoded_maze
+
     def write(self, output_file: str) -> None:
         """Write the maze, coordinates, and solution to a file."""
-        encoded_maze = self.generator.encode_maze()
+        encoded_maze = self.encode_maze()
         entry_coord = self.generator.entry
         exit_coord = self.generator.exit
         directions = self.path_to_directions()

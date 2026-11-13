@@ -21,7 +21,8 @@ class MazeDisplay:
     def display(
             self, path: list[tuple[int, int]] | None = None
             ) -> None:
-        """Display the complete maze in the terminal, highlighting the entry, exit, and shortest path."""
+        """Display the complete maze in the terminal,
+        highlighting the entry, exit, and shortest path."""
         for row in range(self.generator.height):
             time.sleep(0.05)
             top = ""
@@ -58,7 +59,9 @@ class MazeDisplay:
 
         bottom = ""
         for col in range(self.generator.width):
-            if self.generator.maze[self.generator.height - 1][col][self.generator.SOUTH]:
+            if self.generator.maze[
+                self.generator.height - 1
+            ][col][self.generator.SOUTH]:
                 bottom += self.WALL_COLOR + "*---" + self.RESET
             else:
                 bottom += self.WALL_COLOR + "*   " + self.RESET
