@@ -104,12 +104,11 @@ The project is divided into modules, each with a specific responsibility:
 - `get_open_neighbors()`: Finds accessible neighboring cells.
 - `create_loops()`: Opens additional passages in Pac-Man mode.
 - `find_shortest_path()`: Calculates the shortest path using BFS.
-- `encode_maze()`: Converts the maze into hexadecimal representation.
-- `place_42()`: Defines the closed cells that form the 42 pattern.
 
 **MazeWriter**
 - `path_to_directions()`: Converts the shortest path into N, E, S and W directions.
 - `write()`: Saves the maze and its information to the output file.
+- `encode_maze()`: Converts the maze walls into hexadecimal values.
 
 **MazeDisplay**
 - `display()`: Renders the maze in the terminal, with colored walls and highlighted elements.
@@ -121,6 +120,10 @@ The project is divided into modules, each with a specific responsibility:
 - `set_shortest_path_visibility()`: Shows or hides the shortest path.
 - `change_wall_color()`: Changes the wall color.
 - `run()`: Controls the interactive menu.
+
+**a_maze_ing.py**
+- `main()`: Loads the configuration and coordinates the application.
+- `place_42()`: Defines the blocked cells that form the 42 pattern.
 
 ## Algorithm
 
@@ -138,11 +141,19 @@ For Pac-Man mode, additional passages are opened to create loops and alternative
 
 The `MazeGenerator` class, located in `maze_generator.py`, is designed to be reused independently of the display and controller modules.
 
-Basic usage:
+It can be imported into other Python projects to generate mazes using the Recursive Backtracker algorithm.
+
+### Basic Usage
+
+Import the class:
 
 ```python
 from maze_generator import MazeGenerator
+```
 
+Create a generator instance:
+
+```python
 generator = MazeGenerator(
     width=20,
     height=15,
@@ -155,31 +166,105 @@ generator = MazeGenerator(
 generator.generate()
 ```
 
-Custom parameters allow users to define maze dimensions, entry, exit, generation mode, and random seed.
+### Parameters
 
-The generated structure is accessible through `generator.maze`.
+The `MazeGenerator` constructor accepts the following parameters:
 
-The shortest path can be obtained using:
+| Parameter | Description |
+|---|---|
+| `width` | Number of columns in the maze. |
+| `height` | Number of rows in the maze. |
+| `entry` | Entry coordinates `(x, y)`. |
+| `exit` | Exit coordinates `(x, y)`. |
+| `perfect` | Defines whether the maze is perfect (`True`) or contains additional passages (`False`). |
+| `seed` | Optional random seed for reproducible maze generation. |
+
+### Accessing the Generated Maze
+
+The generated maze structure is accessible through the `generator.maze` attribute.
+
+Each cell contains four boolean values representing its walls:
+
+- `0`: North
+- `1`: East
+- `2`: South
+- `3`: West
+
+A value of `True` indicates a closed wall, while `False` indicates an open passage.
+
+To retrieve the shortest path between the entry and exit:
 
 ```python
 path = generator.find_shortest_path()
+print(path)
 ```
 
-The reusable module is packaged as `mazegen-*` and distributed as a `.whl` or `.tar.gz` file. The repository includes the required sources to rebuild the package.
+The method returns a list of `(row, column)` coordinates representing the shortest path.
+
+### Installation in Another Project
+
+The reusable module is distributed as a Python package in `.whl` and `.tar.gz` formats.
+
+To install the package in another Python project, use pip:
+
+```bash
+python -m pip install ./dist/mazegen_de_pauls-0.1.0-py3-none-any.whl
+```
+
+Alternatively, install the source distribution:
+
+```bash
+python -m pip install ./dist/mazegen_de_pauls-0.1.0.tar.gz
+```
+
+After installation, import and use the class as shown in the Basic Usage section.
+
+### Rebuilding the Package
+
+The package can be rebuilt from the project source using the Python build tool:
+
+```bash
+python -m pip install build
+python -m build
+```
+
+This generates the distribution files inside the `dist/` directory.
+
+The package configuration is defined in `pyproject.toml`.
 
 ## Team and Project Management
 
 The project was developed by two students.
 
-**[LOGIN_1]**
-- [Describe actual responsibilities.]
+***lde-paul***
 
-**[LOGIN_2]**
-- [Describe actual responsibilities.]
+- Developed the configuration parser and validation logic.
+
+- Implemented the 42 pattern placement and blocked-cell management.
+
+- Developed the main application entry point (a_maze_ing.py).
+
+- Created the Makefile and project license.
+
+- Performed functional testing, debugging, and validation of the application.
+
+***wde-paul***
+
+- Developed the maze generation algorithm and shortest-path calculation.
+
+- Implemented the maze visualization and display functionality.
+
+- Developed the maze output writer and file generation.
+
+- Created the project documentation (README.md).
+
+- Configured the Python package (pyproject.toml) and built the distributable packages (.whl and .tar.gz).
 
 **Planning:** The project was initially divided into independent tasks, followed by module integration, testing, debugging, and documentation. The original plan evolved as implementation and integration revealed additional requirements.
 
 **What worked well:** Dividing responsibilities, separating the code into modules, and testing different maze configurations.
+
+**What could be improved:** Earlier integration between modules could have reduced compatibility issues and rework. More frequent joint testing during development would also have helped identify problems sooner.
 
 **Tools used:** Python, Git, GitHub, Linux Terminal, Make, Flake8, Mypy, and the provided Maze Analyzer.
 
@@ -188,7 +273,3 @@ The project was developed by two students.
 - A-Maze-ing project subject and provided Maze Analyzer.
 
 **AI Usage:** AI was used as a learning and development support tool to understand algorithms, discuss implementation approaches, review code, identify bugs, and design tests.
-
----
-
-**A-Maze-ing — This is the way.**
