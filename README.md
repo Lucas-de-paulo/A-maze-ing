@@ -20,7 +20,7 @@ The maze includes the 42 pattern, a calculated shortest path, and an interactive
 Clone the repository and enter the project directory:
 
 ```bash
-git clone <REPOSITORY_URL>
+git clone <git@github.com:Lucas-de-paulo/A-maze-ing.git>
 cd A-maze-ing
 ```
 
