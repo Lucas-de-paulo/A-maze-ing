@@ -26,12 +26,10 @@ class MazeGenerator:
         self.perfect = perfect
         self.seed = seed
 
+        self.rng = random.Random(seed)
         self.maze: list[list[list[bool]]] = []
         self.visited: list[list[bool]] = []
         self.blocked: set[tuple[int, int]] = set()
-
-        if self.seed is not None:
-            random.seed(self.seed)
 
         for row in range(height):
             maze_line = []
@@ -119,7 +117,7 @@ class MazeGenerator:
             neighbors = self.get_unvisited_neighbors(row, col)
 
             if neighbors:
-                next_row, next_col = random.choice(neighbors)
+                next_row, next_col = self.rng.choice(neighbors)
 
                 if next_row == row - 1:
                     self.maze[row][col][self.NORTH] = False

@@ -41,7 +41,10 @@ class MazeController:
     def regenerate_maze(self) -> None:
         """Generate a new maze and update the output file."""
         self.generator.generate()
-        self.writer.write(self.output_file)
+        try:
+            self.writer.write(self.output_file)
+        except OSError as e:
+            print((f"Error writing to file {self.output_file}: {e}"))
         self.refresh_display()
 
     def set_shortest_path_visibility(self) -> None:

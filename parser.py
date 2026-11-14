@@ -33,12 +33,12 @@ class Config:
 
         if self.entry == self.exit:
             raise ValueError(
-                f"Coordinates entry and exit they are the same"
+                "Coordinates entry and exit they are the same"
             )
 
         if self.width < 3 or self.height < 3:
             raise ValueError(
-                f"The maze is small, the minimum is width: 3 and height: 3"
+                "The maze is small, the minimum is width: 3 and height: 3"
             )
 
 

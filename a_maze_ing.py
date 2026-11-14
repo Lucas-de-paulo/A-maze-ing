@@ -10,6 +10,10 @@ from maze_writer import MazeWriter
 
 def place_42(maze: MazeGenerator) -> None:
     """Define the blocked cells that form the 42 pattern."""
+    if maze.width < 9 or maze.height < 7:
+        maze.blocked.clear()
+        return
+
     x_place = maze.width // 2
     y_place = maze.height // 2
 
@@ -66,6 +70,7 @@ def main() -> None:
         maze.generate()
     except (ValueError) as e:
         print(f"Error: {e}")
+        sys.exit(1)
 
     writer = MazeWriter(maze)
 
