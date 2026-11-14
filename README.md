@@ -208,13 +208,13 @@ The reusable module is distributed as a Python package in `.whl` and `.tar.gz` f
 To install the package in another Python project, use pip:
 
 ```bash
-python -m pip install ./dist/mazegen_de_pauls-0.1.0-py3-none-any.whl
+python -m pip install mazegen_de_pauls-0.1.0-py3-none-any.whl
 ```
 
 Alternatively, install the source distribution:
 
 ```bash
-python -m pip install ./dist/mazegen_de_pauls-0.1.0.tar.gz
+python -m pip install mazegen_de_pauls-0.1.0.tar.gz
 ```
 
 After installation, import and use the class as shown in the Basic Usage section.
