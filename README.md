@@ -272,11 +272,7 @@ The project was developed by two students.
 
 ### Articles
 
-- https://www.geeksforgeeks.org/dsa/depth-first-search-or-dfs-for-a-graph/ **dfs algorithm**
-- https://www.geeksforgeeks.org/dsa/breadth-first-search-or-bfs-for-a-graph/ **bfs algorithm**
-- https://www.w3schools.com/dsa/dsa_algo_graphs_traversal.php **dsa algorithm**
-
-
-- A-Maze-ing project subject and provided Maze Analyzer.
+- https://www.geeksforgeeks.org/dsa/depth-first-search-or-dfs-for-a-graph/ **dfs algorithm** used in generate method.
+- https://www.geeksforgeeks.org/dsa/breadth-first-search-or-bfs-for-a-graph/ **bfs algorithm** used in find_shortest_path method.
 
 **AI Usage:** AI was used as a learning and development support tool to understand algorithms, discuss implementation approaches, review code, identify bugs, and design tests.
